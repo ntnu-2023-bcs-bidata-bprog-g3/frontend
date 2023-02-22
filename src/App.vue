@@ -9,20 +9,20 @@
     </v-app-bar>
 
     <v-main>
-      <PoolDisplay></PoolDisplay>
+      <PoolCollection></PoolCollection>
     </v-main>
   </v-app>
 </template>
 
 <script>
 
-import PoolDisplay from "@/components/PoolDisplay.vue"
+import PoolCollection from "@/components/PoolCollection.vue"
 
 export default {
   name: 'App',
 
   components: {
-    PoolDisplay
+    PoolCollection
   },
 
   data: () => ({
