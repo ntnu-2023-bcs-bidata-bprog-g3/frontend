@@ -1,0 +1,78 @@
+<template>
+    <div id="content">
+        <br>
+        <div class="left">
+            <v-file-input 
+            Solo 
+            Underlined 
+            label="License file"
+            v-model="file"
+            dense
+            />
+            <v-btn @click="upload">Send</v-btn>
+        </div>
+        <v-data-table  
+            :headers="headers"
+            :items="pool"
+            item-key="id">
+        </v-data-table>
+    </div>
+</template>
+
+<script>
+
+import { fetchPools, uploadFile } from '@/http/http';
+
+export default {
+    name: 'PoolCollection',
+    data: () => ({
+        file: null,
+        pool: []
+    }),
+    created: async function() {
+        this.pool = await fetchPools()
+        console.log(this.pool)
+    },
+    methods:{
+        upload: async function(){
+            console.log(this.file)
+            uploadFile({"file":this.file})
+            this.pool = await fetchPools()
+        }
+    },
+    computed:{
+        headers: function(){
+            return [
+                    {text: "ID", value: "id"},
+                    {text: "Media Function", value:"mediaFunction"},
+                    {text: "Time left", value:"timeLeftSeconds"},
+                    {text: "Description", value:"description"}
+                ]
+        }
+    }
+};
+</script>
+
+
+<style>
+
+#content {
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+.v-file-input{
+    max-width: 300px;
+}
+
+.left {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: start;
+}
+
+.left > * {
+    margin-right: 20px;
+}
+
+</style>
