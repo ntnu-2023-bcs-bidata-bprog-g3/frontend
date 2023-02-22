@@ -16,5 +16,5 @@ function startApi(){
 startApi();
 
 // Axios functions to call different APIS
-export const fetchPools = (payload) => {return api.get('/pool/all', payload)}
-export const uploadFile = (payload) => {return api.get('/license', payload)}
+export const fetchPools = () => {return api.get('/pool/all')}
+export const uploadFile = (payload) => {return api.get('/license', payload, { headers: {"Content-Type": "multipart/form-data"} })}
