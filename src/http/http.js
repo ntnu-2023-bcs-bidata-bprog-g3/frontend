@@ -4,7 +4,7 @@ let api;
 
 function startApi(){
     api = axios.create({
-        baseURL: '/api/v1'
+        baseURL: 'http://localhost:8090/api/v1'
     });
 
     api.interceptors.response.use((res) => {
@@ -17,4 +17,4 @@ startApi();
 
 // Axios functions to call different APIS
 export const fetchPools = () => {return api.get('/pool/all')}
-export const uploadFile = (payload) => {return api.get('/license', payload, { headers: {"Content-Type": "multipart/form-data"} })}
+export const uploadFile = (payload) => {return api.post('/license', payload, { headers: {"Content-Type": "multipart/form-data"} })}
