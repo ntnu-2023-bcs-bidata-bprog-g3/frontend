@@ -10,6 +10,7 @@
             dense
             />
             <v-btn @click="upload">Send</v-btn>
+            <label v-if="errorMsg!=''">{{errorMsg}}</label>
         </div>
         <v-data-table  
             :headers="headers"
@@ -26,19 +27,23 @@ import { fetchPools, uploadFile } from '@/http/http';
 export default {
     name: 'PoolCollection',
     data: () => ({
+        errorMsg: "",
         file: null,
         pool: []
     }),
     created: async function() {
-        this.pool = await fetchPools()
-        console.log(this.pool)
+        this.pool = (await fetchPools()).pools
     },
     methods:{
         upload: async function(){
             console.log(this.file)
-            uploadFile({"file":this.file})
-            this.pool = await fetchPools()
-        }
+            const responseMsg = await uploadFile({file:this.file})
+            if('error' in responseMsg){
+                this.errorMsg = responseMsg['error']
+                return
+            }
+            this.pool = (await fetchPools()).pools
+        },
     },
     computed:{
         headers: function(){
