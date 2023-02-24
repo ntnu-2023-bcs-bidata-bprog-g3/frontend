@@ -13,6 +13,7 @@
             <label v-if="errorMsg!=''">{{errorMsg}}</label>
         </div>
         <v-data-table  
+            :loading="pool.length==0"
             :headers="headers"
             :items="pool"
             item-key="id">
