@@ -4,7 +4,7 @@
         <br>
         <v-card>
             <v-card-title >
-                <div id="fancyTitle">
+                <div class="spread">
                     NMS pool
 
                     <div class="left">
@@ -28,6 +28,8 @@
             </v-data-table>
         </v-card>
         <br>
+        <licenseGenerator :medias="pool"/>
+        <br>
         <v-card>
             <v-card-title>Aggregates</v-card-title>
             <div v-if="lfaPools.length != 0">
@@ -45,12 +47,14 @@
 <script>
 
 import lfaPool from '@/components/lfaPool.vue';
+import licenseGenerator from '@/components/licenseGenerator.vue'
 import { fetchPools, uploadFile,fetchLfas } from '@/http/http';
 
 export default {
     name: 'PoolCollection',
     components: {
-        lfaPool
+        lfaPool,
+        licenseGenerator
     },  
     data: () => ({
         errorMsg: "",
@@ -89,7 +93,7 @@ export default {
                     {text: "Time left", value:"timeLeftSeconds"},
                     {text: "Description", value:"description"}
                 ]
-        }
+        },
     }
 };
 </script>
@@ -97,7 +101,7 @@ export default {
 
 <style>
 
-#fancyTitle{
+.spread{
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
@@ -124,7 +128,7 @@ export default {
 .left {
     display: flex;
     flex-wrap: nowrap;
-    align-items: end;
+    align-items: start;
 }
 
 .left > * {
