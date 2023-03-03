@@ -64,6 +64,14 @@ export default {
             await generateSubLicense(this.payload)
         }
     },
+    watch:{
+        lfas(newLfa){
+            newLfa.lfas.forEach(function (element) {
+                const ipWithoutPort = element.ip.split(":")[0];
+                element.name = element.name + " - " + ipWithoutPort;
+            });
+        }
+    },
     computed: {
         sendReady: function(){
             return this.payload.ip != '' && this.payload.duration != 0 && this.payload.id != 0
