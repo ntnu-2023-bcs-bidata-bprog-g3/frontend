@@ -4,7 +4,6 @@
             :headers="headers"
             :items="pool"
             item-key="name">
-        >
         </v-data-table>
     </div>
 </template>

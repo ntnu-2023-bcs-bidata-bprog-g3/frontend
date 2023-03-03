@@ -1,25 +1,39 @@
 <template>
-    <v-card>
+    <v-card width="27%">
         <v-card-title>Control center</v-card-title>
-        <div class="left">
-            <v-radio-group v-model="payload.ip" label="Send to:">
-                <v-radio v-for="(v, i) in lfas.lfas" :key="i" :label="v.name +' - '+v.ip" :value="v.ip"></v-radio>
-            </v-radio-group>
-            <v-radio-group v-model="payload.mediaFunction" label="Media to send:">
-                <v-radio v-for="(v, i) in medias" :key="i" :label="v.mediaFunction +' - '+v.id" :value="v.mediaFunction"></v-radio>
-            </v-radio-group>
+        <div class="selects">
+            <v-select
+                v-model="payload.ip"
+                clearable
+                label="Send to"
+                :items="lfas.lfas"
+                item-text="name"
+                item-value="ip"
+            ></v-select>
+            <v-select
+                v-model="payload.mediaFunction"
+                clearable
+                label="Medfiafunction"
+                :items="medias"
+                item-text="mediaFunction"
+                item-value="mediaFunction"
+            ></v-select>
         </div>
                 
-        <div id="number">
-            <v-text-field
+        <div class="left">
+
+            <div id="number">
+                <v-text-field
+                dense
                 v-model="payload.duration"
                 hide-details
                 single-line
                 label="Time in seconds"
                 type="number"
-            />
+                />
+            </div>
+            <v-btn :disabled="!sendReady" @click="send">send</v-btn>
         </div>
-        <v-btn :disabled="!sendReady" @click="send">send</v-btn>
     </v-card>
 </template>
 
@@ -33,6 +47,7 @@ export default {
     props: {medias: []},
     data: () => ({
         lfas: [],
+        selected: null,
         payload: {
             mediaFunction: "",
             ip: "",
@@ -61,8 +76,14 @@ export default {
 <style scoped>
 
 #number{
+    width:50%px;
+    margin-bottom: 10px;
+}
+
+.selects {
     padding-left: 20px;
-    width:200px    
+    padding-right: 20px;
+    width: 98%px;
 }
 
 </style>

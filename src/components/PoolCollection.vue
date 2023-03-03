@@ -2,33 +2,34 @@
     <div id="content">
         <br>
         <br>
-        <v-card>
-            <v-card-title >
-                <div class="spread">
+        <div id="topElements">
+            <v-card width="70%">
+                <v-card-title >
+                    <div class="spread">
                     NMS pool
 
                     <div class="left">
                         <v-file-input 
-                            Solo 
-                            Underlined 
+                        Solo 
+                        Underlined 
                             label="License file"
                             v-model="file"
                             dense
-                        />
-                        <v-btn @click="upload">Send</v-btn>
-                        <label v-if="errorMsg!=''">{{errorMsg}}</label>
-                    </div>
-                </div> 
-            </v-card-title>
-            <v-data-table  
-                :loading="pool.length==0"
-                :headers="headers"
-                :items="pool"
-                item-key="id">
-            </v-data-table>
-        </v-card>
-        <br>
-        <licenseGenerator :medias="pool"/>
+                            />
+                            <v-btn @click="upload">Send</v-btn>
+                            <label v-if="errorMsg!=''">{{errorMsg}}</label>
+                        </div>
+                    </div> 
+                </v-card-title>
+                <v-data-table  
+                    :loading="pool.length==0"
+                    :headers="headers"
+                    :items="pool"
+                    item-key="id">
+                </v-data-table>
+            </v-card>
+            <licenseGenerator :medias="pool"/>
+        </div>
         <br>
         <v-card>
             <v-card-title>Aggregates</v-card-title>
@@ -88,7 +89,6 @@ export default {
     computed:{
         headers: function(){
             return [
-                    {text: "ID", value: "id"},
                     {text: "Media Function", value:"mediaFunction"},
                     {text: "Time left", value:"timeLeftSeconds"},
                     {text: "Description", value:"description"}
@@ -100,6 +100,13 @@ export default {
 
 
 <style>
+
+#topElements{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 100%;
+}
 
 .spread{
     width: 100%;
