@@ -1,6 +1,6 @@
 <template>
-    <v-card width="27%">
-        <v-card-title>Control center</v-card-title>
+    <v-card width="28.5%">
+        <v-card-title>Generate sublicense <label v-if="errorMsg!=''">{{"  -  "}}{{errorMsg}}</label></v-card-title>
         <div class="selects">
             <v-select
                 v-model="payload.ip"
@@ -13,7 +13,7 @@
             <v-select
                 v-model="payload.mediaFunction"
                 clearable
-                label="Medfiafunction"
+                label="Medfia function"
                 :items="medias"
                 item-text="mediaFunction"
                 item-value="mediaFunction"
@@ -48,6 +48,7 @@ export default {
     data: () => ({
         lfas: [],
         selected: null,
+        errorMsg: "",
         payload: {
             mediaFunction: "",
             ip: "",
@@ -56,12 +57,16 @@ export default {
     }),
     created: async function(){
         this.lfas = await fetchLfaNames();
-        console.log(this.lfas)
     },
     methods: {
         send: async function(){
-            console.log(this.payload)
-            await generateSubLicense(this.payload)
+            const responseMsg = await generateSubLicense(this.payload)
+            if('error' in responseMsg){
+                this.errorMsg = responseMsg['error']
+                return
+            }
+            this.errorMsg = ""
+            this.$emit("generate")
         }
     },
     watch:{
