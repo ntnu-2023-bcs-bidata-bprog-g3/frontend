@@ -1,10 +1,14 @@
 <template>
     <div>
-        <v-data-table
-            :headers="headers"
-            :items="pool"
-            item-key="name">
-        </v-data-table>
+        <v-card>
+            {{ name }}
+            <br>
+            <v-data-table
+                :headers="headers"
+                :items="pool"
+                item-key="name">
+            </v-data-table>
+        </v-card>
     </div>
 </template>
 
@@ -13,7 +17,7 @@
 
 export default {
     name: 'lfaPool',
-    props: {pool: []},
+    props: {pool: [], name: String},
     computed:{
         headers: function(){
             return [
