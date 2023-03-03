@@ -1,7 +1,6 @@
 <template>
     <div id="content">
         <br>
-        <br>
         <div id="topElements">
             <v-card width="70%">
                 <v-card-title >
@@ -28,16 +27,16 @@
                     item-key="id">
                 </v-data-table>
             </v-card>
-            <licenseGenerator :medias="pool"/>
+            <licenseGenerator :medias="pool" @generate="refresh"/>
         </div>
         <br>
         <v-card>
             <v-card-title>Aggregates</v-card-title>
+            <label v-if="errorMsgLfa!=''">{{errorMsgLfa}}</label>
             <div v-if="lfaPools.length != 0">
                 <div id="lfaPools">
                     <div v-for="(v, i) in lfaPools" :key="i">
-                        {{ v.name }} - {{ v.ip }} <br>
-                        <lfaPool :pool="v.licenses"/>
+                        <lfaPool :pool="v.licenses" :name="v.name+' - '+ v.ip"/>
                     </div>
                 </div>
             </div>
@@ -59,6 +58,7 @@ export default {
     },  
     data: () => ({
         errorMsg: "",
+        errorMsgLfa: "",
         file: null,
         pool: [],
         lfaPools: []
@@ -75,16 +75,22 @@ export default {
                 this.errorMsg = responseMsg['error']
                 return
             }
+            this.errorMsg = ""
             this.pool = (await fetchPools()).pools
         },
         fetchLFA: async function(){
             const responseMsg = await fetchLfas()
             if('error' in responseMsg){
-                this.errorMsg = responseMsg['error']
+                this.errorMsgLfa = responseMsg['error']
                 return
             }
+            this.errorMsgLfa = ""
             this.lfaPools = responseMsg.lfas
         },  
+        refresh: async function(){
+            this.pool = (await fetchPools()).pools
+            this.fetchLFA()
+        },
     },
     computed:{
         headers: function(){
