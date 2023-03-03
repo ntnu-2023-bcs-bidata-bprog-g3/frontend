@@ -3,8 +3,10 @@ import axios from 'axios'
 let api;
 
 function startApi(){
+    let ipPort = window.location.host;
+    const ip = ipPort.split(":")[0] +":8090";
     api = axios.create({
-        baseURL: 'http://localhost:8090/api/v1'
+        baseURL: `http://${ip}/api/v1`
     });
 
     api.interceptors.response.use((res) => {
