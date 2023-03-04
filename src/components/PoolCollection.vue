@@ -36,7 +36,7 @@
             <div v-if="lfaPools.length != 0">
                 <div id="lfaPools">
                     <div v-for="(v, i) in lfaPools" :key="i">
-                        <lfaPool :pool="v.licenses" :name="v.name+' - '+ v.ip"/>
+                        <lfaPool :pool="v.licenses" :name="v.name+' - '+ v.ip" @consume="consumeLicense(v.ip, ...arguments)"/>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
 
 import lfaPool from '@/components/lfaPool.vue';
 import licenseGenerator from '@/components/licenseGenerator.vue'
-import { fetchPools, uploadFile,fetchLfas } from '@/http/http';
+import { fetchPools, uploadFile, fetchLfas, consumeLicense } from '@/http/http';
 
 export default {
     name: 'PoolCollection',
@@ -91,6 +91,16 @@ export default {
             this.pool = (await fetchPools()).pools
             this.fetchLFA()
         },
+        consumeLicense: async function(ip, mediaFunction, duration){
+            let payload = {
+                ip: ip,
+                mediaFunction: mediaFunction,
+                duration: duration,
+            }
+            await consumeLicense(payload);
+            console.log(ip, mediaFunction, duration)
+            this.refresh();
+        }
     },
     computed:{
         headers: function(){
