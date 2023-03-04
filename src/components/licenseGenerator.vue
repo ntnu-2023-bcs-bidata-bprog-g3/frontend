@@ -1,5 +1,5 @@
 <template>
-    <v-card width="28.5%">
+    <v-card width="28.5%" :loading="loading">
         <v-card-title>Generate sublicense <label v-if="errorMsg!=''">{{"  -  "}}{{errorMsg}}</label></v-card-title>
         <div class="selects">
             <v-select
@@ -13,7 +13,7 @@
             <v-select
                 v-model="payload.mediaFunction"
                 clearable
-                label="Medfia function"
+                label="Media function"
                 :items="medias"
                 item-text="mediaFunction"
                 item-value="mediaFunction"
@@ -46,6 +46,7 @@ export default {
     name: 'licenseGenerator',
     props: {medias: []},
     data: () => ({
+        loading: false,
         lfas: [],
         selected: null,
         errorMsg: "",
@@ -60,13 +61,21 @@ export default {
     },
     methods: {
         send: async function(){
+            this.loading = true;
             const responseMsg = await generateSubLicense(this.payload)
             if('error' in responseMsg){
                 this.errorMsg = responseMsg['error']
                 return
             }
+            this.loading = false;
             this.errorMsg = ""
             this.$emit("generate")
+
+            this.payload = {
+                mediaFunction: "",
+                ip: "",
+                duration: 0,
+            }
         }
     },
     watch:{
@@ -79,7 +88,7 @@ export default {
     },
     computed: {
         sendReady: function(){
-            return this.payload.ip != '' && this.payload.duration != 0 && this.payload.id != 0
+            return this.payload.ip != '' && this.payload.duration > 0 && this.payload.id != 0
         }
     }
 }
