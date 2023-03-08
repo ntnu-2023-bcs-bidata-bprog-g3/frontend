@@ -56,10 +56,13 @@ export default {
             duration: 0,
         }
     }),
-    created: async function(){
-        this.lfas = await fetchLfaNames();
+    created: function(){
+        this.refresh()
     },
     methods: {
+        refresh: async function(){
+            this.lfas = await fetchLfaNames();
+        },
         send: async function(){
             this.loading = true;
             const responseMsg = await generateSubLicense(this.payload)

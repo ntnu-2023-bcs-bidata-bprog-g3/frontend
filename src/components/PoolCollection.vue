@@ -21,13 +21,13 @@
                     </div> 
                 </v-card-title>
                 <v-data-table  
-                    :loading="pool.length==0"
+                    :loading="loading"
                     :headers="headers"
                     :items="pool"
                     item-key="id">
                 </v-data-table>
             </v-card>
-            <licenseGenerator :medias="pool" @generate="refresh"/>
+            <licenseGenerator :medias="pool" @generate="refresh" ref="licenseGen"/>
         </div>
         <br>
         <v-card>
@@ -61,10 +61,15 @@ export default {
         errorMsgLfa: "",
         file: null,
         pool: [],
-        lfaPools: []
+        lfaPools: [],
+        loading: true
     }),
     created: async function() {
-        this.pool = (await fetchPools()).pools
+        let data = (await fetchPools())
+        if ('pools' in data){
+            this.pool = data.pools
+        }
+        this.loading = false;
         this.fetchLFA();
     },
     methods:{
@@ -87,9 +92,10 @@ export default {
             this.errorMsgLfa = ""
             this.lfaPools = responseMsg.lfas
         },  
-        refresh: async function(){
+        refresh: async function(){  
             this.pool = (await fetchPools()).pools
             this.fetchLFA()
+            this.$refs.licenseGen.refresh()
         },
         consumeLicense: async function(ip, mediaFunction, duration){
             let payload = {
