@@ -16,10 +16,12 @@
                             dense
                             />
                             <v-btn @click="upload">Send</v-btn>
-                            <label v-if="errorMsg!=''">{{errorMsg}}</label>
                         </div>
-                    </div> 
+                    </div>
                 </v-card-title>
+              <div class="rigthText">
+                <label>{{errorMsg}}</label>
+              </div>
                 <v-data-table  
                     :loading="loading"
                     :headers="headers"
@@ -152,6 +154,7 @@ export default {
 .v-file-input{
     padding-left: 35px;
     min-width: 300px;
+    min-height: 60px;
 }
 
 .left {
@@ -170,6 +173,13 @@ export default {
 
 .v-card{
     padding: 10px;
+}
+
+.rigthText {
+  min-height: 40px;
+  text-align: right;
+  color: darkred;
+
 }
 
 </style>
