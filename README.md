@@ -4,7 +4,8 @@ Demo tool for interacting with Offline License Management system.
 All requests to LFAs are first sent to the NMS and then relayed to the correct LFA in order to support the system topology.
 
 
-**Note** This codebase is out of scope for the bachelor thesis, meaning less time has been spent on QA and full utilization of branching etc.
+**Note** This codebase is out of scope for the bachelor thesis, meaning less time has been spent on QA.
+
 ## Project setup
 Installs all dependecies:
 ```
